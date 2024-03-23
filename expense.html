@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense</title>
+    <link rel="stylesheet" href="style_expense.css">
+</head>
+<body>
+        <div class="container">
+            <h1>Expense</h1>
+            <form id="Expense-form">
+                <div class="form-group">
+                    <label for="trip-id">Trip ID:</label>
+                    <input type="text" id="trip-id" name="trip-id" required placeholder="Enter Trip Id : ">
+                </div>
+                <div class="form-group">
+                    <label for="user-id">User ID:</label>
+                    <input type="text" id="user-id" name="user-id" required placeholder="Enter User Id : ">
+                </div>
+                <div class="form-group">
+                    <label for="category">Category:</label>
+                    <select id="category" name="category" required>
+                        <option value="Accomodation">Accomodation</option>
+                        <option value="Transportation">Transportation</option>
+                        <option value="Sight-seeing">Sight-seeing</option>
+                        <option value="Miscellaneous">Miscellaneous</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="Amount">Amount:</label>
+                    <input type="number" id="Amount" name="Amount" required placeholder="Enter The Amount : ">
+                </div>
+                <div class="form-group">
+                    <label for="Date">Date:</label>
+                    <input type="Date" id="Date" name="Date" required>
+                </div>
+                <div class="form-group">
+                    <label for="Description">Description:</label>
+                    <textarea name="Description" id="Description" placeholder="Write The Description Here" row="5" column="10"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="payment-method">Payment Method:</label>
+                    <select id="payment-method" name="payment-method" required>
+                        <option value="Online">Online</option>
+                        <option value="Offline">Offline</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="expense-type">Expense Type:</label>
+                    <select id="expense-type" name="expense-type" required>
+                        <option value="Fixed">Fixed</option>
+                        <option value="Variable">Variable</option>
+                    </select>
+                </div>
+
+                <button type="submit">Submit</button>
+
+                <button type="Edit">Edit</button>
+            </form>
+        </div>
+    </body>
+    </html>
+</body>
+</html>
