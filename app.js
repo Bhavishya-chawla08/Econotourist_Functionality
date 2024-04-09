@@ -1,0 +1,371 @@
+const express = require("express");
+const app = express();
+const mysql = require("mysql");
+const bodyParser = require('body-parser');
+let path = require('path');
+// let value = require("../pblmyself/public/js/login.js");
+// module.exports = app;
+
+const connection = mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    database: "pbl",
+    password: "Tejas@6504"
+});
+app.use(express.urlencoded({extended: true}));
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
+app.use(express.static(path.join(__dirname, "/public")));
+
+app.get('/', (req,res) => {
+   req.flash("Hello There");
+   });
+   
+
+app.get('/main', async (req,res) => {
+    
+        res.render("main.ejs");
+});
+
+
+
+//create route 
+app.get('/main/login', (req,res) => {
+       res.render("login.ejs");
+})
+
+app.get('/mainlogin/:id', async (req,res) => {
+    let {id} = req.params;
+    // console.log(id);
+   
+    try{
+   
+        await connection.query("select * from user where id = ?",id,(err,result) => {
+                if(err) throw err;
+                // console.log(result);
+                res.render("mainlogin.ejs",{data : result});
+            })
+        } catch(err){
+            console.log(err);
+        }
+})
+
+app.post("/main/login",async(req,res) => {
+    let {user,email2,pass2,passcon,email,pass} = req.body;
+
+let id =Math.floor(Math.random() * (1000000000));
+
+      try{
+        
+        if(req.body.user != undefined)
+        {
+        await connection.query("insert into user (id,username,email,password) values (? ,? ,? ,?) ",[id,req.body.user,req.body.email2,req.body.pass2],(err,result) => {
+             if(err) throw err;
+              res.redirect("/main/login");         
+         })
+        }else
+        {
+            connection.query("select * from user where email = ?",[req.body.email],(err,result) => {
+                if(err) throw err;
+                if(req.body.pass == result[0].password)
+                {
+                        res.redirect(`/mainlogin/${result[0].id}`); 
+                }else
+                {
+                    res.redirect("/login");     
+             }
+            })
+        }
+     } catch(err){
+         console.log(err);
+     }
+
+     try{
+       
+     } catch(err){
+        
+         console.log(err);
+     }
+
+})
+
+// app.get('/logindone', (req,res) => {
+//     res.sendFile(__dirname+"/mainloginedin.html");
+// })
+
+// app.post('/login',(req,res)=>{
+// })
+
+app.get('/mainlogin/:id/register', (req,res) => {
+    let {id} = req.params;
+    console.log(id);
+
+    try{
+    connection.query("select * from register where id = ? ",id,(err,result) => {
+        if(err) throw err;
+        // console.log(result[0]);
+        if(result[0] == undefined)
+        {
+            connection.query("select * from user where id = ? ",id,(err,result) => {
+                if(err) throw err;
+            res.render("register.ejs",{data : result});
+          })
+        }
+        else{
+            res.render("registeredit.ejs",{data: result});
+        }
+           
+    })
+} catch(err){
+    console.log(err);
+}
+
+ 
+    // res.render("register.ejs", {});
+})
+
+app.post("/mainlogin/:id/registerdone",(req,res) => {
+    let {id} = req.params;
+
+  let {fname,lname,age,email,password,dob,gender,phoneno} = req.body;
+
+         try{ 
+            connection.query("insert into register(id,firstname,lastname,age,email,password,DateofBirth,Gender,phoneno) values (?,?,?,?,?,?,?,?,?) ",[id,req.body.fname,req.body.lname,req.body.age,req.body.email,req.body.password,req.body.dob,req.body.gender,req.body.phoneno],(err,result) => {
+                if(err) throw err;
+                res.redirect(`/mainlogin/${id}`);
+            })
+        } catch(err){
+            console.log(err);
+        }
+})
+    
+app.post("/mainlogin/:id/edit",(req,res)=>{
+let {id} = req.params;
+let {fname,lname,age,email,password,dob,gender,phoneno} = req.body;
+
+    try{
+        connection.query("update register set firstname=?,lastname=?,age=?,email=?,password=?,DateofBirth=?,Gender=?,phoneno=? where id = ?",[req.body.fname,req.body.lname,req.body.age,req.body.email,req.body.password,req.body.dob,req.body.gender,req.body.phoneno,id],(err,result) => {
+            if(err) throw err;
+            res.redirect(`/mainlogin/${id}/register`)
+        })
+     }
+      catch(err){
+            console.log(err);
+        }
+})
+
+
+
+//-----------------FOR HOTELS------------------------//
+app.get("/mainlogin/:id/hotels",async (req,res) =>{
+    let {id} = req.params;
+
+    try{
+        await connection.query("select * from hotels",(err,result) => {
+            if(err) throw err;
+            // hotels =[id,result];
+           res.render("hotels/hotels.ejs",{ hotel : result});
+        })
+    } catch(err){
+        console.log(err);
+    }
+
+});
+
+app.get("/mainlogin/hotels/add",(req,res)=>{
+    res.render("hotels/hotelform.ejs");
+ });
+
+app.get("/mainlogin/hotels/:h_id",async (req,res)=>{
+    let {h_id} = req.params;
+    //  console.log(h_id);
+    try{
+        await connection.query("select * from hotels where h_id = ?",h_id,(err,result) => {
+            if(err) throw err;
+            // hotels =[id,result];
+           res.render("hotels/hotelsdetails.ejs",{ hotel : result});
+        })
+    } catch(err){
+        console.log(err);
+    }
+});
+
+
+
+app.post("/mainlogin/hotels/add",async(req,res)=>{
+ let {id} = req.params;
+ let {title,description,image,price,location,country} = req.body;
+ console.log(id);
+
+    try{
+        await connection.query("insert into hotels(title,description,image,price,location,country) values (?, ?, ?, ?, ?, ?) ",[req.body.title,req.body.description,req.body.image,req.body.price,req.body.location,req.body.country],(err,result) => {
+            if(err) throw err;
+            // hotels =[id,result];
+        //    res.render("hotels/hotelsdetails.ejs",{ hotel : result});
+        res.redirect(`/mainlogin/${id}/hotels`);
+        })
+    } catch(err){
+        console.log(err);
+    }
+
+ });
+
+ app.get("/mainlogin/hotels/:h_id/edit",(req,res)=> {
+       let {h_id} = req.params;
+ 
+       try{
+        connection.query("select * from hotels where h_id = ? ",h_id,(err,result) => {
+            if(err) throw err;
+            // hotels =[id,result];
+           res.render("hotels/hotelformedit.ejs",{ hotel : result});
+        })
+    } catch(err){
+        console.log(err);
+    }
+
+       
+ });
+
+ app.post("/mainlogin/hotels/:h_id/edit",(req,res) => {
+     
+    let {h_id} = req.params;
+ let {title,description,image,price,location,country} = req.body;
+//   console.log(req.body);
+
+     try{
+          connection.query("update hotels set title = ?,description =?,image =?,price=?,location=?,country=? where h_id = ? ",[req.body.title,req.body.description,req.body.image,req.body.price,req.body.location,req.body.country,h_id],(err,result) => {
+             if(err) throw err;
+             // hotels =[id,result];
+         //    res.render("hotels/hotelsdetails.ejs",{ hotel : result});
+         res.redirect(`/mainlogin/hotels/${h_id}`);
+         })
+     } catch(err){
+         console.log(err);
+     }
+ })
+
+ app.get("/mainlogin/hotels/:h_id/delete", (req,res) => {
+    let {h_id} = req.params;
+    let {id} = req.params;
+
+    try{
+        connection.query("delete from hotels where h_id = ? ",h_id,(err,result) => {
+           if(err) throw err;
+           // hotels =[id,result];
+       //    res.render("hotels/hotelsdetails.ejs",{ hotel : result});
+       res.redirect(`/mainlogin/:id/hotels`);
+       })
+   } catch(err){
+       console.log(err);
+   }
+ })
+
+//-----------------FOR PLAN A TRIP------------------------//
+
+app.get("/mainlogin/:id/planatrip",(req,res) => {
+    
+    let {id} = req.params;
+    console.log(id);
+
+    try{
+        connection.query("Select * from user where id = ? ",id,(err1,result1) => {
+           if(err1) throw err1;
+           connection.query("Select * from pat where id = ? ",id,(err2,result2) => {
+            if(err2) throw err2;
+
+            // const combineData = {
+            //     table1: result1,
+            //     table2: result2
+            //   };
+            // console.log(result1);
+            // console.log(result2);
+  
+             res.render("planatrip/planatrip.ejs",{table1: result1,table2: result2});
+    //          if(id == undefined)
+    //        {
+    //         connection.query("select * from user where id = ? ",id,(err,result) => {
+    //             if(err) throw err;
+    //             console.log("first");
+    //             res.render("planatrip/patform.ejs",{data : result});
+    //         })
+    //        }else {
+    //         console.log("second");
+    //         res.render("planatrip/patform.ejs",{data : result});
+    //        }
+    //        res.render("planatrip/planatrip.ejs",{data : result});
+       })
+    })
+
+   } catch(err){
+       console.log(err);
+   }
+ 
+})
+
+app.get("/mainlogin/:id/planatrip/add",(req,res) => {
+    let {id} = req.params;
+   
+    const query1 = "select * from user where id = ?";
+
+    try{
+        connection.query(query1,id,(err1,result1) => {
+           if(err1) throw err1;
+            // console.log(combineData);
+           res.render("planatrip/patform.ejs",{data : result1});
+       })
+   } catch(err){
+       console.log(err);
+   }
+})
+
+app.post("/mainlogin/:id/planatrip/add",(req,res) => {
+    let {id} = req.params;
+    console.log(id);
+let {tripname,startdate,enddate,overallbudget,triptype,destination} = req.body;
+let tripid  =Math.floor(Math.random() * (1000000));
+let userid = id;
+ 
+try{
+    connection.query("insert into pat (tripid,id,tripname,startdate,enddate,overallbudget,triptype,destination) values (? , ? , ? , ? , ? , ? ,? , ?) ",[tripid,id,req.body.tripname,req.body.startdate,req.body.enddate,req.body.overallbudget,req.body.triptype,req.body.destination],(err,result) => {
+       if(err) throw err;
+       res.redirect(`/mainlogin/${id}/planatrip`);
+   })
+} catch(err){
+   console.log(err);
+}
+
+})
+
+app.get("/mainlogin/:id/:tripid",(req,res) => {
+    let {id,tripid} = req.params;
+
+    try{
+        connection.query("select * from user where id = ?",id,(err1,result1) => {
+           if(err1) throw err1;
+           connection.query("select * from pat where tripid = ?",tripid,(err2,result2) => {
+            if(err2) throw err2;
+            // console.log(result2[0].overallbudget);
+            let hotel_budget = (result2[0].overallbudget*25)/100;
+            // console.log(hotel_budget);
+
+           connection.query("select * from hotels where price <= ?",hotel_budget,(err3,result3) => {
+            if(err3) throw err3;
+
+            // console.log(result3);
+            
+            // console.log(combineData);
+           res.render("planatrip/patdetails.ejs",{data1 : result1 , data2 : result2, data3 : result3});
+       })
+    })
+})
+   } catch(err){
+       console.log(err);
+   }
+})
+
+app.post("/mainlogin/pat",(req,res) => {
+     let {checks} = req.body;
+     console.log(checks);
+})
+
+app.listen(7000);

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trip Details</title>
+    <link rel="stylesheet" href="trip.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Trip Details</h1>
+        <form id="trip-form" action="/mainlogin/<%=data[0].id %>/planatrip/add" method="post">
+            
+            <div class="form-group">
+                <label for="trip-name">Trip Name:</label>
+                <input type="text" id="trip-name" name="tripname" required placeholder="Enter Trip Name : ">
+            </div>
+            <div class="form-group">
+                <label for="start-date">Start Date:</label>
+                <input type="date" id="start-date" name="startdate" required>
+            </div>
+            <div class="form-group">
+                <label for="end-date">End Date:</label>
+                <input type="date" id="end-date" name="enddate" required>
+            </div>
+            <div class="form-group">
+                <label for="overall-budget">Overall Budget:</label>
+                <input type="number" id="overall-budget" name="overallbudget" required placeholder="Enter YOur Budget : ">
+            </div>
+            <div class="form-group">
+                <label for="trip-type">Trip Type:</label>
+                <select id="trip-type" name="triptype" required>
+                    <option value="out-station">Out-Station</option>
+                    <option value="in-station">In-Station</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="destination">Destination:</label>
+                <input type="text" id="destination" name="destination" required placeholder="Enter The Destinatiom : ">
+            </div>
+            <button type="submit">Submit</button>
+
+            <button type="Edit">Edit</button>
+        </form>
+    </div>
+</body>
+</html>
