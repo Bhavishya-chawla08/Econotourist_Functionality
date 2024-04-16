@@ -9,8 +9,8 @@ let path = require('path');
 const connection = mysql.createConnection({
     host: "localhost",
     user: "root",
-    database: "pbl",
-    password: "Tejas@6504"
+    database: "econotourist",
+    password: "root"
 });
 app.use(express.urlencoded({extended: true}));
 app.set("view engine", "ejs");
@@ -318,6 +318,58 @@ app.get("/mainlogin/:id/planatrip/add",(req,res) => {
    }
 })
 
+app.get("/mainlogin/:id/map", (req, res) => {
+    let { id } = req.params;
+    res.render("map/estimate.ejs"); 
+});
+app.get("/mainlogin/:id/map/instation", (req, res) => {
+    let { id } = req.params;
+    res.render("map/instation.ejs"); 
+});
+
+app.get("/mainlogin/:id/map/outstation", (req, res) => {
+    let { id } = req.params;
+    res.render("map/train.ejs"); 
+});
+
+// Endpoint to fetch train details based on source and destination
+app.post("/mainlogin/mapdetails", (req, res) => {
+    // const sourceStation = req.body.source;
+    // const destinationStation = req.body.destination;
+
+    let {source,destination} = req.body;
+
+    console.log("%"+req.body.source+"%");
+
+    // Fetch train details from the database based on source and destination
+    // try{
+    // connection.query("SELECT * FROM trains  where (source_station_name like (?) OR station_name like (?)) AND destination_station_name like (?)",["%"+req.body.source+"%","%"+req.body.source+"%","%"+req.body.destination+"%"], (error, results) => {
+    //     if (error) {
+    //         console.log(results);
+    //         // console.error('Erro fetching trains from database:', error);
+    //         // res.status(500).send('Error fetching trains from database');
+    //     } else {
+    //         // Send the results directly to the client without converting to JSON
+    //         res.send(results);
+    //     }
+    // });
+
+    try{
+        connection.query("SELECT * FROM trains  where (source_station_name like (?) OR station_name like (?)) AND destination_station_name like (?)",["%"+req.body.source+"%","%"+req.body.source+"%","%"+req.body.destination+"%"], (error, results) => {
+           if(error) throw error;
+           console.log(results);
+           res.render("map/trainmain.ejs",{data : results});
+           // hotels =[id,result];
+       //    res.render("hotels/hotelsdetails.ejs",{ hotel : result});
+       })
+   } catch(error){
+       console.log(error);
+   }
+});
+
+
+
+   
 app.post("/mainlogin/:id/planatrip/add",(req,res) => {
     let {id} = req.params;
     console.log(id);
@@ -363,9 +415,12 @@ app.get("/mainlogin/:id/:tripid",(req,res) => {
    }
 })
 
-app.post("/mainlogin/pat",(req,res) => {
-     let {checks} = req.body;
-     console.log(checks);
-})
+// app.post("/mainlogin/pat",(req,res) => {
+//      let {checks} = req.body;
+//      console.log(checks);
+// })
+
+//===========================maps===========================
+
 
 app.listen(7000);
