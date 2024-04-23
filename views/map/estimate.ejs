@@ -9,44 +9,26 @@
 
 <h2>Estimate Travel Cost</h2>
 
-<form id="travelForm" action="#" method="get">
+<form id="travelForm" action="/RideDetails/<%= data[0].id %>" method="get">
 
     <label for="stationType">Select Station Type:</label><br>
     <input type="radio" id="inStation" name="stationType" value="inStation" checked>
     <label for="inStation">In-Station</label><br>
-    <a href="/mainlogin/:id/map/instation">instation</a>
     <input type="radio" id="outStation" name="stationType" value="outStation">
     <label for="outStation">Out-Station</label><br><br>
-    <a href="/mainlogin/:id/map/outstation">outstation</a>
-
+   
     <div id="optionsDiv" style="display:none;">
         <label for="transportMode">Select Transport Mode:</label><br>
         <input type="radio" id="ola" name="transportMode" value="ola">
         <label for="ola">Ola</label><br>
-        <a href="/mainlogin/:id/map/instation">Ola</a>
         <input type="radio" id="trains" name="transportMode" value="trains">
         <label for="trains">Trains</label><br><br>
-        <a href="/mainlogin/:id/map/outstation">Trains</a>
     </div>
 
-    <button type="button" onclick="redirectToPage()">Estimate Cost</button>
+    <button type="submit">Estimate Cost</button>
 </form>
 
 <script>
-    function redirectToPage() {
-        var stationType = document.querySelector('input[name="stationType"]:checked').value;
-        if (stationType === "inStation") {
-            window.location.href = "map/instation.ejs";
-        } else {
-            var transportMode = document.querySelector('input[name="transportMode"]:checked').value;
-            if (transportMode === "ola") {
-                window.location.href = "map/instation.ejs";
-            } else if (transportMode === "trains") {
-                window.location.href = "map/train.ejs";
-            }
-        }
-    }
-
     document.getElementById("outStation").addEventListener("click", function() {
         document.getElementById("optionsDiv").style.display = "block";
     });
@@ -58,3 +40,4 @@
 
 </body>
 </html>
+

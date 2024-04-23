@@ -260,6 +260,22 @@ app.post("/mainlogin/hotels/add",async(req,res)=>{
    }
  })
 
+ //===========================attraction Points===========================
+
+app.get("/mainlogin/:id/attraction",(req,res)=>{
+    let {id} = req.params;
+
+    try{
+        connection.query("select * from TouristSpots",(err,result) => {
+           if(err) throw err;
+           console.log(result);
+           res.render("attraction/attraction.ejs",{data : result});
+       })
+    } catch(err){
+       console.log(err);
+    }
+})
+
 //-----------------FOR PLAN A TRIP------------------------//
 
 app.get("/mainlogin/:id/planatrip",(req,res) => {
@@ -320,17 +336,34 @@ app.get("/mainlogin/:id/planatrip/add",(req,res) => {
 
 app.get("/mainlogin/:id/map", (req, res) => {
     let { id } = req.params;
-    res.render("map/estimate.ejs"); 
-});
-app.get("/mainlogin/:id/map/instation", (req, res) => {
-    let { id } = req.params;
-    res.render("map/instation.ejs"); 
+    res.render("map/estimate.ejs", { data: [{ id: id }] }); 
 });
 
-app.get("/mainlogin/:id/map/outstation", (req, res) => {
+app.get("/RideDetails/:id", (req, res) => {
     let { id } = req.params;
-    res.render("map/train.ejs"); 
+    const stationtype = req.query.stationType;
+    const transportMode = req.query.transportMode;
+    switch (stationtype) {
+        case 'inStation':
+            res.render("map/instation.ejs", { id: id });
+            break;
+        case 'outStation':
+            switch(transportMode) {
+                case 'ola':
+                    res.render("map/instation.ejs", { id: id });
+                    break;
+                case  'trains':
+                    res.render("map/train.ejs", { id: id });
+                    break;
+                default:
+                    res.status(400).send('Invalid Option');
+            }
+            break;
+        default:
+            res.status(400).send('Invalid Option');
+    }
 });
+
 
 // Endpoint to fetch train details based on source and destination
 app.post("/mainlogin/mapdetails", (req, res) => {
@@ -420,7 +453,7 @@ app.get("/mainlogin/:id/:tripid",(req,res) => {
 //      console.log(checks);
 // })
 
-//===========================maps===========================
+
 
 
 app.listen(7000);
