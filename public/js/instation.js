@@ -50,11 +50,11 @@ function calculateDistanceAndTripCost() {
   var distanceInKm = parseFloat(distanceText[0]);
 
   // Calculate trip cost based on extracted distance
-  var costola = 25; // Assuming a cost per kilometer
+  var costola = 10; // Assuming a cost per kilometer
   var tripCost = distanceInKm * costola;
   tripCost = tripCost.toFixed(2); // Round to 2 decimal places
 
-  document.getElementById('trip-cost').textContent = 'Trip Cost: ' + tripCost;
+  document.getElementById('trip-cost').textContent = 'Estimated Trip Cost for Ola : ' + tripCost;
 }
 
 // Event handler for directions "route" event
