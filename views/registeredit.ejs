@@ -6,12 +6,17 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registration Form</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Platypi:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/register.css" type="text/css">
 </head>
 <body>
     <div class="main">
+    
         <div class="register">
-            <h2>Register</h2>
+            <h2>Registration Form</h2>
+            <h3>Please fill your full details so we can kow you.</h3>
             <form id="register" novalidate action="/mainlogin/<%= data[0].id %>/edit" method="post">
 
                 <label>First Name : </label>
@@ -55,10 +60,13 @@
                 <br>
                 <input type="tel" name="phoneno"  pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" value="<%= data[0].phoneno %>" class="name" required>
                 <br><br>
-               <button>UPDATE</button>
+                <button class="animated-button">
+                  <span>UPDATE</span>
+                </button>
               
                 <!-- <button type="Edit">Edit</button> -->
             </form>
+        
         </div>
     </div>
 
