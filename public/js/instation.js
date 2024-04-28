@@ -1,5 +1,6 @@
 // Mapbox Public Access Key
-mapboxgl.accessToken = 'pk.eyJ1IjoiaXNod2FyaS0yMiIsImEiOiJjbGplZjBzdWkyd3BwM2pxeTk3NmFrajVuIn0.jcNyUjD4Vsza5C0nvkC7QQ';
+// ***************************** Access Token for Map ******************************************
+// mapboxgl.accessToken = 'pk.eyJ1IjoiYmhhdmlzaDIwMDQiLCJhIjoiY2x2aTY5c3c2MWJxMDJrbzVxbWl0dG90OCJ9.I3pZLAZHCJaPR8GCDzQEkQ';
 
 // Initializing Map
 var map = new mapboxgl.Map({
@@ -48,13 +49,32 @@ function calculateDistanceAndTripCost() {
 
   // Extract numeric distance value
   var distanceInKm = parseFloat(distanceText[0]);
+  console.log(distanceInKm);
 
   // Calculate trip cost based on extracted distance
-  var costola = 10; // Assuming a cost per kilometer
-  var tripCost = distanceInKm * costola;
-  tripCost = tripCost.toFixed(2); // Round to 2 decimal places
+  if(distanceInKm <= 60.000)
+  { 
+    document.querySelector(".alert2").style.display = "flex";
+    var costola = 16.50; // Assuming a cost per kilometer
+    var costrickshaw = 11.80;
+    var tripCost_Ola = distanceInKm * costola;
+    var tripCost_Rickshaw = distanceInKm * costrickshaw;
+    tripCost_Ola = tripCost_Ola.toFixed(2); // Round to 2 decimal places
+    tripCost_Rickshaw = tripCost_Rickshaw.toFixed(2); // Round to 2 decimal places
+    document.getElementById('trip-cost1').textContent = 'Estimated Trip Cost for Ola : ' + tripCost_Ola;
+    document.getElementById('trip-cost2').textContent = 'Estimated Trip Cost for Rickshaw : ' + tripCost_Rickshaw;
+  }
+  else {
+    document.querySelector(".alert2").style.display = "none";
+    var costola = 16.50; // Assuming a cost per kilometer
+    var tripCost_Ola = distanceInKm * costola;
+    tripCost_Ola = tripCost_Ola.toFixed(2); // Round to 2 decimal places
+    document.getElementById('trip-cost1').textContent = 'Estimated Trip Cost for Ola : ' + tripCost_Ola;
+  }
+  
+  // tripCost = tripCost.toFixed(2); // Round to 2 decimal places
 
-  document.getElementById('trip-cost').textContent = 'Estimated Trip Cost for Ola : ' + tripCost;
+  // document.getElementById('trip-cost').textContent = 'Estimated Trip Cost for Ola : ' + tripCost;
 }
 
 // Event handler for directions "route" event

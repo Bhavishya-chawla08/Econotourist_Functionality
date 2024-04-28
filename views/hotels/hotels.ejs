@@ -19,7 +19,7 @@
      
     <div class="position">
     <% for( let i = 0; i < hotel.length; i++ ) { %>
-      <li class="list"> <a href="/mainlogin/hotels/<%= hotel[i].h_id %>"><img src="<%= hotel[i].image %>" alt="" class="formimg"><p><%= hotel[i].title %> <br> &#8377; <%= hotel[i].Price.toLocaleString("en-IN") %>/nigth</p></a> </li>
+      <li class="list"> <a href="/mainlogin/hotels/<%= hotel[i].h_id %>"><img src="<%= hotel[i].image %>" alt="" class="formimg"><p><%= hotel[i].title %> <br> &#8377; <%= hotel[i].Price.toLocaleString("en-IN") %>/night</p></a> </li>
     <% } %> 
 </div>
     <form action="/mainlogin/hotels/add" method="get">

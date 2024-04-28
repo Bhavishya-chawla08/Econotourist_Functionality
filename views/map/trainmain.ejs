@@ -8,12 +8,19 @@
   <link rel="stylesheet" href="/css/train.css">
 </head>
 <body>
+  
   <div id="map"></div>
+
+  <h2> Train Enquiry </h2>
   <form id="search-form" action="/mainlogin/mapdetails" method="post">
-    <input type="text" id="source" name="source">
-    <input type="text" id="destination" name="destination">
+    <input type="text" id="source" name="source" placeholder="Enter the source station">
+    <br>
+    <input type="text" id="destination" name="destination" placeholder="Enter the destination station">
+    <br>
     <button>Search</button>
 </form>
+
+<h2> Train Details </h2>
 
 <table border="1px black">
   <tr>
@@ -26,6 +33,7 @@
     <th>train Distance</th>
     <th>train Source station name</th>
     <th>train Destination station name</th>
+    <th> train Fare (/person) </th>
 </tr>
 <% for(let i=0;i<data.length;i++){ %>
 <tr>
@@ -39,6 +47,7 @@
     <th><%= data[i].distance %></th>
     <th><%= data[i].source_station_name %></th>
     <th><%= data[i].destination_station_name %></th>
+    <th><%= data[i].fare %></th>
 
 </tr>
 <% } %>

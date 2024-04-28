@@ -406,12 +406,12 @@ app.post("/mainlogin/mapdetails", (req, res) => {
 app.post("/mainlogin/:id/planatrip/add",(req,res) => {
     let {id} = req.params;
     console.log(id);
-let {tripname,startdate,enddate,overallbudget,triptype,destination} = req.body;
+let {tripname,startdate,enddate,overallbudget,triptype,destination,source,No_person} = req.body;
 let tripid  =Math.floor(Math.random() * (1000000));
 let userid = id;
- 
+
 try{
-    connection.query("insert into pat (tripid,id,tripname,startdate,enddate,overallbudget,triptype,destination) values (? , ? , ? , ? , ? , ? ,? , ?) ",[tripid,id,req.body.tripname,req.body.startdate,req.body.enddate,req.body.overallbudget,req.body.triptype,req.body.destination],(err,result) => {
+    connection.query("insert into pat (tripid,id,tripname,startdate,enddate,overallbudget,triptype,destination,source,No_person) values (? , ? , ? , ? , ? , ? ,? , ?,?,?) ",[tripid,id,req.body.tripname,req.body.startdate,req.body.enddate,req.body.overallbudget,req.body.triptype,req.body.destination,req.body.source,req.body.No_person],(err,result) => {
        if(err) throw err;
        res.redirect(`/mainlogin/${id}/planatrip`);
    })
@@ -448,10 +448,11 @@ app.get("/mainlogin/:id/:tripid",(req,res) => {
    }
 })
 
-// app.post("/mainlogin/pat",(req,res) => {
-//      let {checks} = req.body;
-//      console.log(checks);
-// })
+
+app.post("/mainlogin/pat",(req,res) => {
+     let {checks} = req.body;
+     console.log(checks.value);
+})
 
 
 
