@@ -9,7 +9,7 @@
 
 <h2>Estimate Travel Cost</h2>
 
-<form id="travelForm" action="/RideDetails/<%= data[0].id %>" method="get">
+<form id="travelForm" action="/mainlogin/<%= data[0].id %>/<%= data[0].tripid %>/finalinstation" method="get">
 
     <label for="stationType">Select Station Type:</label><br>
     <input type="radio" id="inStation" name="stationType" value="inStation" checked>

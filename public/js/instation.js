@@ -29,6 +29,17 @@ var map = new mapboxgl.Map({
   
   // Adding navigation control on Map
   map.addControl(new mapboxgl.NavigationControl(), 'bottom-right');
+
+  directions.on('origin', function(event) {
+    var source = event.feature.geometry.coordinates;
+    console.log('Source:', source);
+});
+
+// Event handler for directions "destination" event
+directions.on('destination', function(event) {
+    var destination = event.feature.geometry.coordinates;
+    console.log('Destination:', destination);
+});
   
 
 // Function to calculate distance and trip cost
@@ -49,7 +60,8 @@ function calculateDistanceAndTripCost() {
 
   // Extract numeric distance value
   var distanceInKm = parseFloat(distanceText[0]);
-  console.log(distanceInKm);
+  console.log("Hello");
+
 
   // Calculate trip cost based on extracted distance
   if(distanceInKm <= 60.000)
