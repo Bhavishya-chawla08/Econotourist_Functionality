@@ -8,20 +8,17 @@
 </head>
 <body>
      
-  <form action="/mainlogin/pat" method="post">
-  <div class="hotelcontain">
+  <form action="/mainlogin/<%= data1[0].id %>/<%= data2[0].tripid %>/pat" method="post" id="tripForm">
+    <div class="hotelcontain">
+        <h1>Please Choose you Hotel for staying</h1>
         <% for( let i = 0; i < data3.length; i++ ) { %>
 
-            <label for="checks"><input type="radio" class="position shadow check" name="checks" value="<%= data3[i].title %>"> 
+            <label for="checks"><input type="radio" class="position shadow check" name="checks"> 
 <img src="<%= data3[i].image%>" alt="" class="patimg"><p><b><%= data3[i].title %> </b><br> &#8377; <%= data3[i].Price.toLocaleString("en-IN") %>/nigth</p>
 </label>       
 <% } %> 
          <button>Done</button>
 </div>
-<script>
-    const hoteloption =  document.querySelector('input[name="checks"]:checked');
-    console.log(hoteloption.value);
-</script>
 </form>
 </body>
 </html>

@@ -29,6 +29,20 @@
 </form>
 
 <script>
+    function redirectToPage() {
+        var stationType = document.querySelector('input[name="stationType"]:checked');
+        console.log(stationType.value);
+        if (stationType === "inStation") {
+            window.location.href = "map/instation.ejs";
+        } else {
+            var transportMode = document.querySelector('input[name="transportMode"]:checked').value;
+            if (transportMode === "ola") {
+                window.location.href = "map/instation.ejs";
+            } else if (transportMode === "trains") {
+                window.location.href = "map/train.ejs";
+            }
+        }
+    }
     document.getElementById("outStation").addEventListener("click", function() {
         document.getElementById("optionsDiv").style.display = "block";
     });
