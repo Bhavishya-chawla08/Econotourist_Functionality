@@ -33,6 +33,7 @@ body {
     margin-top: 20px;
   }
 
+<<<<<<< HEAD
   .container{
     display: flex;
     height: 100px;
@@ -57,5 +58,110 @@ body {
   }
 
   .alert-secondary{
+=======
+  .checkdiv{
+    width: 50%;
+    height: 100;
+    margin-top: 40px;
+  }
+
+  .div1{
+    padding-top: 5%;
+    padding-bottom: 5%;
+    margin-top: 8%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: auto;
+    border-radius: 50px;
+    border: 2px solid black;
+  }
+
+  .divin{
+    display: flex;
+    justify-content: space-between;
+    border-radius: 50px;
+    border: 2px solid orange;
+    width: 95%;
+    height: 50px;
+    overflow: hidden;
+  }
+
+  .divattaract{
+     margin-top: 15px;
+     
+  }
+
+  .div2{
+    padding-top: 5%;
+    padding-bottom: 5%;
+    margin-top: 8%;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    width: 100%;
+    height: auto;
+    border-radius: 25px;
+    border: 2px solid black;
+  }
+
+  .div3{
+    padding-top: 5%;
+    padding-bottom: 5%;
+    margin-top: 8%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 200px;
+    border-radius: 50px;
+    border: 2px solid black;
+  }
+
+  .maindiv{
+    display: flex;
+  }
+
+  .compass{
+    left: 88%;
+    top: 7%;
+  }
+
+  .ima img{
+   /* border-top-left-radius: 50px;
+   border-bottom-left-radius: 50px; */
+    border-right: 1px solid orange;
+    height: 50px;
+    width: 50px;
+  }
+
+  .name p{
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 45px;
+  }
+
+  .price{
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 45px;
+    padding-right: 10px;
+  }
+
+  button{
+    border-left: 1px solid orange;
+    border-right: none;
+    border-top: none;
+    border-bottom: none;
+  }
+
+  button:hover{
+>>>>>>> 25c2132ee49c690d48b303d20231934f7808e974
     background-color: orange;
   }

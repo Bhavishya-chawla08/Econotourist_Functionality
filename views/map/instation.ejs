@@ -4,7 +4,7 @@
 <head>
   <meta charset='utf-8' />
   <title>Map Directions using Mapbox</title>
-  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no '/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer"
   />
   <link rel="stylesheet" href="https://api.tiles.mapbox.com/mapbox-gl-js/v1.5.0/mapbox-gl.css" />
@@ -14,14 +14,23 @@
   <link rel="stylesheet" href="/css/instation.css"> </head>
 
 <body>
-  <div class="position-relative h-100 w-100">
+  <div class="position-relative h-100 w-100 maindiv">
+    <div class="checkdiv">
+      <div class="div1 swa"><div class="divin"><span class="ima"><img src="<%= data[0].hotel_image %>" alt=""></span><span class="name"><p><%= data[0].hotel_name %></p></span><span class="price"><%= data[0].hotel_price %></span> <button>Add</button></div></div>
+      <div class="div2 swa">
+       <% for( let i = 0; i < data.length; i++ ) { %>
+        <div class="divin divattaract"><span class="ima"><img src="<%= data[i].attraction_image %>" alt=""></span><span class="name"><p><%= data[i].attraction_name %></p></span><span class="price"><%= data[i].attraction_price %></span><button>Add</button></div>
+       <% } %>
+      </div>
+      <div class="div3 swa"><div class="divin"><span class="ima"><img src="<%= data[0].hotel_image%>" alt=""></span><span class="name"><p>name3</p></span><span class="price">price3</span></div></div>
+    </div>
     <div id='map'></div>
-    <div class="position-absolute top-0 end-0 ">
+    <div class="position-absolute compass">
       <button class="btn btn-lg btn-light bg-gradient bg-light border me-2 mt-3" id="get-direction"><i class="fa fa-directions"></i> Direction</button>
       <button class="btn btn-lg btn-light bg-gradient bg-light border me-2 mt-3 d-none" id="end-direction"><i class="fa fa-times"></i> End Direction</button>
     </div>
   </div>
-
+   
   <div class="container mt-3">
     <div id="trip-cost1" class="alert alert-secondary mb-3" role="alert">
       <!-- Content for trip cost 1 -->
