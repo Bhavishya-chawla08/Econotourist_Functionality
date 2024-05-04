@@ -22,8 +22,13 @@
         <div class="divin divattaract"><span class="ima"><img src="<%= data[i].attraction_image %>" alt=""></span><span class="name"><p><%= data[i].attraction_name %></p></span><span class="price"><%= data[i].attraction_price %></span><button>Add</button></div>
        <% } %>
       </div>
-      <div class="div3 swa"><div class="divin"><span class="ima"><img src="<%= data[0].hotel_image%>" alt=""></span><span class="name"><p>name3</p></span><span class="price">price3</span></div></div>
+      <div class="div3 swa">
+      <% for( let i = 0; i < data10.length; i++ ) { %>
+    <div class="divin"><span class="ima"><%= data10[i].source%>-<%= data10[i].destination%></span><span class="name"><p><%= data10[i].ola_price%></p></span><span class="price"><%= data10[i].rickshaw_price %></span></div>
+      <% } %>
     </div>
+    </div>
+  
     <div id='map'></div>
     <div class="position-absolute compass">
       <button class="btn btn-lg btn-light bg-gradient bg-light border me-2 mt-3" id="get-direction"><i class="fa fa-directions"></i> Direction</button>
@@ -39,9 +44,27 @@
       <!-- Content for trip cost 2 -->
     </div>
   </div>
-  
-  
 
+  
+  <form action="/mainlogin/<%= data[0].id %>/<%= data[0].tripid %>/ride" method="post">
+    Source:
+    <input type="text" name="source" placeholder="eg.Marine Drive">
+    <br>
+    Destination:
+    <input type="text" name="destination" placeholder="eg.Gateway of India">
+    <br>
+    Distance:
+    <input type="text" name="distance" placeholder="In km">
+    <br>
+    Ola Price:
+    <input type="text" name="ola_price" placeholder="In rupees">
+    <br> 
+    Rickshaw Price:
+    <input type="text" name="rickshaw_price" placeholder="In rupees">
+    <br>
+   <button> Confirm </button>
+  </form>
+  
 
 
   <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.5.0/mapbox-gl.js'></script>

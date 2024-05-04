@@ -2,15 +2,18 @@ const express = require("express");
 const app = express();
 const mysql = require("mysql");
 const bodyParser = require('body-parser');
+const mapboxgl = require('mapbox-gl');
 let path = require('path');
+
+// let distanceInKm = require("/js/instation.js");
 // let value = require("../pblmyself/public/js/login.js");
 // module.exports = app;
 
 const connection = mysql.createConnection({
     host: "localhost",
     user: "root",
-    database: "pbl",
-    password: "Tejas@6504"
+    database: "econotourist",
+    password: "root"
 });
 app.use(express.urlencoded({extended: true}));
 app.set("view engine", "ejs");
@@ -334,14 +337,80 @@ app.get("/mainlogin/:id/planatrip/add",(req,res) => {
    }
 })
 
+app.get("/mainlogin/:id/estimate", (req, res) => {
+    let { id } = req.params;
+    try{
+         connection.query("select * from user where id = ?",id,(err,result) => {
+            if(err) throw err;
+            // hotels =[id,result];
+           res.render("map/estimate.ejs",{ data : result});
+        })
+    } catch(err){
+        console.log(err);
+    }
+});
+
+
+app.get("/mainlogin/:id/finalestimate",(req,res) => {
+
+      let { id } = req.params;
+    const stationtype = req.query.stationType;
+    const transportMode = req.query.transportMode;
+    switch (stationtype) {
+        case 'inStation':
+            res.render("map/instationdis.ejs", { id: id });
+            break;
+        case 'outStation':
+            switch(transportMode) {
+                case 'ola':
+                    res.render("map/instationdis.ejs", { id: id });
+                    break;
+                case  'trains':
+                    res.render("map/train.ejs", { id: id });
+                    break;
+                default:
+                    res.status(400).send('Invalid Option');
+            }
+            break;
+        default:
+            res.status(400).send('Invalid Option');
+    }
+})
+
 app.get("/mainlogin/:id/map", (req, res) => {
     let { id } = req.params;
-    res.render("map/estimate.ejs"); 
+    console.log(id);
+    try{
+        connection.query("select * from user where id = ?",id,(err,result) => {
+            if(err) throw err;
+            // hotels =[id,result];
+           res.render("map/estimate.ejs",{ data : result});
+        })
+    } catch(err){
+        console.log(err);
+    }
 });
-app.get("/mainlogin/:id/map/instation", (req, res) => {
+app.get("/mainlogin/:id/map/estimate", (req, res) => {
     let { id } = req.params;
-    res.render("map/instation.ejs"); 
+    res.render("map/estimatemenu.ejs",{ data :[{id : id}]}); 
 });
+
+app.post("/mainlogin/:id/:tripid/ride",(req,res) => {
+    let {id,tripid} = req.params;
+  let  {source,destination,distance,ola_price,rickshaw_price} = req.body;
+  
+  try{
+    connection.query("insert into ride_details(id,tripid,source,destination,distance,ola_price,rickshaw_price) values(?,?,?,?,?,?,?)",[id,tripid,req.body.source,req.body.destination,req.body.distance,req.body.ola_price,req.body.rickshaw_price],(err,result) => {
+        if(err) throw err;
+        // hotels =[id,result];
+       console.log(result);
+    })
+} catch(err){
+    console.log(err);
+}
+
+res.redirect(`/mainlogin/${id}/planatrip`);
+})
 
 app.get("/RideDetails/:id", (req, res) => {
     let { id } = req.params;
@@ -349,12 +418,12 @@ app.get("/RideDetails/:id", (req, res) => {
     const transportMode = req.query.transportMode;
     switch (stationtype) {
         case 'inStation':
-            res.render("map/instation.ejs", { id: id });
+            res.render("map/instationmenu.ejs", { id: id });
             break;
         case 'outStation':
             switch(transportMode) {
                 case 'ola':
-                    res.render("map/instation.ejs", { id: id });
+                    res.render("map/instationmenu.ejs", { id: id });
                     break;
                 case  'trains':
                     res.render("map/train.ejs", { id: id });
@@ -425,7 +494,90 @@ try{
 
 })
 
+// Define the calculation functions
+function calculateFinalAmountWithOla(data1, data2, data3) {
+    const startdate = data3[0].startdate;
+    const enddate = data3[0].enddate;
+    var diff = new Date(enddate)- new Date(startdate);
+    var no_nights = Math.ceil(diff/(1000*60*60*24));
+    var No_person_ola = 4;
+    var No_person_hotel = 2;
+    var No_of_cabs = Math.ceil(data3[0].No_person / No_person_ola);
+    var No_of_hotel_rooms = Math.ceil(data3[0].No_person / No_person_hotel);
+    var hotel_final = data1[0].hotel_price * No_of_hotel_rooms * no_nights;
+    var attraction_price_all = 0;
+    for (let i = 0; i < data1.length; i++) {
+        attraction_price_all += data1[i].attraction_price;
+    }
+    var attraction_final = attraction_price_all * data3[0].No_person;
 
+    var total_ola = 0;
+    for (let i = 0; i < data2.length; i++) {
+        total_ola += data2[i].ola_price;
+    }
+
+    var final_ola_price = total_ola * No_of_cabs;
+
+    return hotel_final + attraction_final + final_ola_price;
+}
+
+function calculateFinalAmountWithRickshaw(data1, data2, data3) {
+    const startdate = data3[0].startdate;
+    const enddate = data3[0].enddate;
+    var diff = new Date(enddate)- new Date(startdate);
+    var no_nights = Math.ceil(diff/(1000*60*60*24));
+    var No_person_ola = 4;
+    var No_person_rickshaw = 3;
+    var No_of_rickshaw = Math.ceil(data3[0].No_person / No_person_rickshaw);
+    var No_person_hotel = 2;
+    var No_of_hotel_rooms = Math.ceil(data3[0].No_person / No_person_hotel);
+    var hotel_final = data1[0].hotel_price * No_of_hotel_rooms * no_nights;
+    var attraction_price_all = 0;
+    for (let i = 0; i < data1.length; i++) {
+        attraction_price_all += data1[i].attraction_price;
+    }
+    var attraction_final = attraction_price_all * data3[0].No_person;
+
+    var total_rickshaw = 0;
+    for (let i = 0; i < data2.length; i++) {
+        total_rickshaw += data2[i].rickshaw_price;
+    }
+
+    var final_rickshaw_price = total_rickshaw * No_of_rickshaw;
+
+    return hotel_final + attraction_final + final_rickshaw_price;
+}
+
+
+app.get("/mainlogin/:id/history", (req, res) => {
+    let { id } = req.params;
+    try {
+        connection.query("SELECT * FROM trip_history WHERE user_id = ?", [id], (err1, result1) => {
+            if (err1) throw err1;
+            connection.query("SELECT * FROM ride_details WHERE id = ?", id, (err2, result2) => {
+                if (err2) throw err2;
+                connection.query("SELECT * FROM pat WHERE id = ?", id, (err3, result3) => {
+                    if (err3) throw err3;
+
+                    // Calculate final amounts
+                    let final_amount_with_ola = calculateFinalAmountWithOla(result1, result2, result3);
+                    let final_amount_with_rickshaw = calculateFinalAmountWithRickshaw(result1, result2, result3);
+
+                    // Render the EJS template with the calculated values
+                    res.render("final/trip_history.ejs", {
+                        data1: result1,
+                        data2: result2,
+                        data3: result3,
+                        final_amount_with_ola: final_amount_with_ola,
+                        final_amount_with_rickshaw: final_amount_with_rickshaw
+                    });
+                });
+            });
+        });
+    } catch (err) {
+        console.log(err);
+    }
+});
 
 
 
@@ -452,7 +604,11 @@ app.get("/mainlogin/:id/:tripid",(req,res) => {
            connection.query("select * from pat where tripid = ?",tripid,(err2,result2) => {
             if(err2) throw err2;
             // console.log(result2[0].overallbudget);
-            let hotel_budget = (result2[0].overallbudget*25)/100;
+            const startdate = result2[0].startdate;
+            const enddate = result2[0].enddate;
+            var diff = new Date(enddate)- new Date(startdate);
+            var no_nights = Math.ceil(diff/(1000*60*60*24));
+            let hotel_budget = ((result2[0].overallbudget*25)/100)/no_nights;
             let attraction_budget = (result2[0].overallbudget*10)/100;
             // console.log(hotel_budget);
 
@@ -460,6 +616,7 @@ app.get("/mainlogin/:id/:tripid",(req,res) => {
             if(err3) throw err3;
             connection.query("select * from touristspots where Entrance_Fee_INR <= ? && City = ?",[attraction_budget,result2[0].destination],(err4,result4) => {
                 if(err4) throw err4;
+                // console.log(result4);
             // console.log(result3);
             
             // console.log(combineData);
@@ -469,7 +626,7 @@ app.get("/mainlogin/:id/:tripid",(req,res) => {
     })
 })
            }else{
-           res.render("map/instation.ejs",{data : result5})
+           res.render("map/estimate.ejs",{data : result5})
            }
            })
             } catch(err){
@@ -481,6 +638,128 @@ app.get("/mainlogin/:id/:tripid",(req,res) => {
 //      let {checks} = req.body;
 //      console.log(checks);
 // })
+
+app.get("/mainlogin/:id/:tripid/finalinstation",(req,res) => {
+    let {id,tripid} = req.params;
+    const stationtype = req.query.stationType;
+    const transportMode = req.query.transportMode;
+    switch (stationtype) {
+        case 'inStation':
+            try{
+                connection.query("select * from trip_details where tripid = ?",tripid,(err4,result4) => {
+                    if(err4) throw err4;
+                    connection.query("select * from ride_details where tripid = ?",tripid,(err10,result10) => {
+                        if(err10) throw err10;
+                res.render("map/instation.ejs",{data : result4,data10 : result10})
+            })
+        })
+                } catch(err){
+                   console.log(err);
+                }
+            break;
+        case 'outStation':
+            switch(transportMode) {
+                case 'ola':
+                    try{
+                        connection.query("select * from trip_details where tripid = ?",tripid,(err4,result4) => {
+                            if(err4) throw err4;
+                        res.render("map/instation.ejs",{data : result4})
+                    })
+                        } catch(err){
+                           console.log(err);
+                        }
+                    break;
+                case  'trains':
+                    try{
+                        connection.query("select * from trip_details where tripid = ?",tripid,(err4,result4) => {
+                            if(err4) throw err4;
+                        res.render("map/train.ejs",{data : result4})
+                    })
+                        } catch(err){
+                           console.log(err);
+                        }
+                    break;
+                default:
+                    res.status(400).send('Invalid Option');
+            }
+            break;
+        default:
+            res.status(400).send('Invalid Option');
+    }
+})
+
+
+
+app.post("/mainlogin/:id/:tripid/pat",(req,res) => {
+    let {id,tripid} = req.params;
+
+    console.log(id);
+    console.log(tripid);
+    //  let tourist = {check,tour} = req.body;
+    //  console.log(check);
+    //  console.log(tour);
+    // for(let i=0;i<50;i++){
+    //     console.log(tourist);
+    // }
+   let tourist = [];
+    
+    for (let i = 0; i <= 325; i++) {
+        if(req.body['tour' + i] != undefined)
+        {
+        tourist.push([req.body['tour' + i]]);
+        }
+    }
+    console.log(tourist);
+    console.log(tourist.length);
+     
+    
+     let check = req.body.checks;
+    //  let tourist = [];
+    //  for(let i=0;i<=5;i++)
+    //  {
+    //     tourist = [req.body.tour];
+    //  }
+    //  console.log(check);
+    //  console.log(tourist);
+    //  console.log(tour.length);
+
+     try{
+        connection.query("select * from hotels where title = ?",check,(err1,result1) => {
+            if(err1) throw err1;
+            console.log(result1[0].title);
+
+           for(let i=0;i<tourist.length;i++){
+        //    connection.query("select * from pat where id= ?",id,(err3,result3) => {
+        //     if(err3) throw err3;
+            connection.query("select * from touristspots where Name = ?",[tourist[i]],(err3,result3) => {
+                if(err3) throw err3;
+            connection.query("insert into trip_details (id,tripid,hotel_name,hotel_price,hotel_image,hotel_location,attraction_name,attraction_price,attraction_image,timetovisit) values (?, ? ,? , ? , ? ,? ,? ,? ,? ,?)",[id,tripid,result1[0].title,result1[0].Price,result1[0].image,result1[0].Location,result3[0].Name,result3[0].Entrance_Fee_INR,result3[0].Image_URL,result3[0].Time_Needed_Hrs],(err4,result4) => {
+                if(err4) throw err4;  
+          
+        // console.log(result4);
+       })
+    // })
+})
+}
+res.redirect(`/mainlogin/${id}/${tripid}`);
+    })
+    } catch(err){
+       console.log(err);
+    }
+})
+
+app.get("/mainlogin/:id/:tripid/fin",(req,res) => {
+   let {id,tripid} = req.params;
+
+    try{
+    connection.query("select * from trip_details where tripid = ?",tripid,(err4,result4) => {
+        if(err4) throw err4;
+    res.render("map/estimate.ejs",{data : result4})
+})
+    } catch(err){
+       console.log(err);
+    }
+})
 
 
 

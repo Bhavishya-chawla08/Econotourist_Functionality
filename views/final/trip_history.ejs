@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/trip_history.css">
+    <title>Trip History</title>
+</head>
+<body>
+    <h1>Trip History</h1>
+    <div class="main">
+        <h3> Trip Details </h3>
+        <p>Trip ID:<%= data3[0].tripid %></p>
+        <p>Trip Name:<%= data3[0].tripname %></p>
+        <p>Trip Start Date:<%= data3[0].startdate %></p>
+        <p>Trip End Date:<%= data3[0].enddate %></p>
+        <p>Trip Source Location:<%= data3[0].source %></p>
+        <p>Trip Destination Location:<%= data3[0].destination %></p>
+
+        <h3> Hotel Details </h3>
+        <p>Hotel Name:<%= data1[0].hotel_name %></p>
+        <img src="<%= data1[0].hotel_image %>" alt="" class="forimage">
+        <p>Hotel Price:<%= data1[0].hotel_price %></p>
+        <p>Hotel Location:<%= data1[0].hotel_location %></p>
+
+        <h3> Attraction Details </h3>
+        <% for (let i = 0; i < data1.length; i++) { %>
+            <img src="<%= data1[i].attraction_image %>" alt="" class="forimage">
+            <p>Attraction Name:<%= data1[i].attraction_name %></p>
+            <p>Attraction Entry Fee :<%= data1[i].attraction_price %></p>
+        <% } %>
+
+        <h3> Ride Details </h3>
+        <% for (let i = 0; i < data2.length; i++) { %>
+            <p>Source:<%= data2[i].source %> - Destination:<%= data2[i].destination %></p>
+            <p>Distance (in km) :<%= data2[i].distance %></p>
+            <p>Ola Estimated Price:<%= data2[i].ola_price %></p>
+            <p>Rickshaw Estimated Price:<%= data2[i].rickshaw_price %></p>
+        <% } %>
+
+        <h3> Expense Details</h3>
+        <p>Number of travelers: <%= data3[0].No_person %></p>
+        <p>Overall Budget of Trip: <%= data3[0].overallbudget %></p>
+        <p>Final Amount (Ola): <%= final_amount_with_ola %></p>
+        <p>Final Amount (Rickshaw): <%= final_amount_with_rickshaw %></p>
+    </div>
+
+    <div class="button">
+        <button type="submit">Update Trip</button>
+    </div>
+</body>
+</html>

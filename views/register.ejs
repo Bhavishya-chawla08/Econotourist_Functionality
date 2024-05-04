@@ -8,6 +8,55 @@
     <link rel="stylesheet" href="/css/register.css" type="text/css">
 </head>
 <body>
+  <div id="forboth">
+    <div id="main-page1">
+        <div id="forphoto">
+            <div id="nav">
+               <div id="nav-part1"><h4><i class="ri-menu-line"></i></h4></div>
+               <div id="nav-part2"><img src="/image/shubham_logo.jpeg" alt="" width="30px" height="30px"><h4 id="text2"><div id="nav2-text"><span>E</span>CONO-<span>T</span>OURIST</div></h4></div>
+               <div id="nav-part3">
+                <h4 class="nav3"><a href=""><i class="ri-user-add-fill"></i></a></h4>
+                <h4 class="nav3"><a href="#aboutus">About us</a></h4>
+                <h4 class="nav3"><a href="#whychoseus">Choose us</a></h4>
+            </div>
+        </div>
+
+      
+        <section id="home">
+      
+          <div class="sidebar" >
+            <h3 class="sidebaroptions_header">Menu</h3>
+            <hr>
+            <a href="/mainlogin/<%= data[0].id %>/register" class="sidebaroptions">Registration</a>
+            <a href="/mainlogin/<%= data[0].id %>/planatrip" class="sidebaroptions">Plan a Trip</a>
+            <a href="/mainlogin/<%= data[0].id %>/hotels" class="sidebaroptions">Hotels</a>
+            <a href="/mainlogin/<%= data[0].id %>/map" class="sidebaroptions">Estismate Cost</a>
+            <a href="/mainlogin/<%= data[0].id %>/attraction" class="sidebaroptions">Attraction</a>
+            <a href="/mainlogin/<%= data[0].id %>/history" class="sidebaroptions">Trip History</a>
+            </div>
+              
+                <p id="head">Explore more, spend less</p>  
+                <p id="underhead">Plan awesome tours,at very reasonable budget</p>
+                <div id="forsearch">
+                        <div id="destination">Destination <input type="search" name="" id="destination-input" placeholder="Where are you going?"></div>
+                        <div id="departure">Departure Date <input type="date" name="" id="departure-input" placeholder=""></div>
+                        <div id="return">Return Date<input type="date" name="" id="return-input" placeholder=""></div>
+                        <div id="nop">No. of people <input type="number" name="" id="nop-input" placeholder="Total no. of peoples?"></div>
+                        <button type="button"><i class="ri-search-line"></i>Search</button>
+                </div>
+            </div> 
+        </div>
+              
+        </div>
+    </section>
+    
+    <section id="scrollarrow">
+    <div class="arrow">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+    </section>
     <div class="main">
         <div class="register">
             <h2>Register</h2>
@@ -87,5 +136,18 @@
       }, false)
     })
 })() -->
+
+<script>
+
+  let popup = document.getElementById("popup");
+
+  function openPopup(){
+    popup.classList.add("open-popup");
+  }
+  function closePopup(){
+    popup.classList.remove("open-popup");
+  }
+
+</script>
 </body>
 </html>
