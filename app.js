@@ -556,7 +556,7 @@ app.get("/mainlogin/:id/history", (req, res) => {
             if (err1) throw err1;
             connection.query("SELECT * FROM ride_details WHERE id = ?", id, (err2, result2) => {
                 if (err2) throw err2;
-                connection.query("SELECT * FROM pat WHERE id = ?", id, (err3, result3) => {
+                connection.query("SELECT * FROM pat WHERE tripid = ?", result1[0].trip_id, (err3, result3) => {
                     if (err3) throw err3;
 
                     // Calculate final amounts
