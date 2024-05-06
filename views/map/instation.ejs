@@ -45,25 +45,30 @@
     </div>
   </div>
 
-  
+  <div class="rideform">
   <form action="/mainlogin/<%= data[0].id %>/<%= data[0].tripid %>/ride" method="post">
-    Source:
+    <h1 class="ridehead"><b>RIDE FORM</b></h1>
+    <label for="">Source:</label>
     <input type="text" name="source" placeholder="eg.Marine Drive">
     <br>
-    Destination:
+    <label for="">   Destination:</label> 
     <input type="text" name="destination" placeholder="eg.Gateway of India">
     <br>
-    Distance:
+    <label for="">Distance:</label>
     <input type="text" name="distance" placeholder="In km">
     <br>
-    Ola Price:
+    <label for="">Ola Price: </label>
     <input type="text" name="ola_price" placeholder="In rupees">
     <br> 
-    Rickshaw Price:
+    <label for="">Rickshaw Price:</label>
     <input type="text" name="rickshaw_price" placeholder="In rupees">
     <br>
-   <button> Confirm </button>
+   <button class="button">
+    <span class="button-text-one">Submit</span>
+    <span class="button-text-two">Confirm!</span>
+</button>
   </form>
+</div>
   
 
 

@@ -19,10 +19,10 @@ form label {
   display: block;
 }
 
-form input[type="text"] {
+/* form input[type="text"] {
   width: 200px;
   margin-bottom: 10px;
-}
+} */
 
 form button {
   padding: 5px 10px;
@@ -137,4 +137,95 @@ button{
 
 button:hover{
   background-color: orange;
+}
+
+.rideform{
+  display: none;
+  align-items: center;
+  justify-content: center;
+  height: auto;
+}
+
+form{
+  height: auto;
+  width: 350px;
+  border: 2px solid black;
+   border-radius: 20px;
+}
+
+h1{
+  color: orange;
+  text-decoration: 2px underline black;
+  width: 348px;
+  height: 74px;
+  border-bottom: 2px solid black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+input{
+  border-radius: 10px;
+  left: 5px;
+  position: relative;
+  width: 334px;
+  height: 40px;
+}
+
+label{
+  margin-top: 4%;
+  margin-left: 10px;
+}
+
+/* =======================button========================= */
+.button {
+  width: 140px;
+  height: 50px;
+  background: linear-gradient(to top,  #ff8c08,#ffbd08, #fbff06);
+  color: #fff;
+  border-radius: 50px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  position: relative;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+ left: 100px;
+ margin-top: 20px;
+ margin-bottom: 20px
+}
+
+.button span {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: top 0.5s;
+}
+
+.button-text-one {
+  position: absolute;
+  width: 100%;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+}
+
+.button-text-two {
+  position: absolute;
+  width: 100%;
+  top: 150%;
+  left: 0;
+  transform: translateY(-50%);
+}
+
+.button:hover .button-text-one {
+  top: -100%;
+}
+
+.button:hover .button-text-two {
+  top: 50%;
+}
+
+input::placeholder{
+  margin-left: 5px;
 }

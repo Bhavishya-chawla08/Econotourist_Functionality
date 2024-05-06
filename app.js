@@ -12,8 +12,8 @@ let path = require('path');
 const connection = mysql.createConnection({
     host: "localhost",
     user: "root",
-    database: "econotourist",
-    password: "root"
+    database: "pbl",
+    password: "Tejas@6504"
 });
 app.use(express.urlencoded({extended: true}));
 app.set("view engine", "ejs");
@@ -552,12 +552,37 @@ function calculateFinalAmountWithRickshaw(data1, data2, data3) {
 app.get("/mainlogin/:id/history", (req, res) => {
     let { id } = req.params;
     try {
-        connection.query("SELECT * FROM trip_history WHERE user_id = ?", [id], (err1, result1) => {
+        
+                    connection.query("SELECT * FROM pat where id = ?",id,(err, result) => {
+                        if (err) throw err;
+                    // console.log(result);
+                    res.render("final/triphist.ejs", {
+                        data: result,
+                    });
+                });
+    } catch (err) {
+        console.log(err);
+    }
+});
+
+
+app.get("/mainlogin/:id/history/:tripid", (req, res) => {
+    let { id } = req.params;
+    let {tripid} = req.params;
+    console.log(tripid);
+    try {
+        connection.query("SELECT * FROM trip_history WHERE (trip_id = ? && user_id = ?)", [tripid,id], (err1, result1) => {
             if (err1) throw err1;
-            connection.query("SELECT * FROM ride_details WHERE id = ?", id, (err2, result2) => {
+            if(result1[0] != undefined)
+                {
+            connection.query("SELECT * FROM ride_details WHERE (tripid = ? && id = ?)",[tripid,id], (err2, result2) => {
                 if (err2) throw err2;
-                connection.query("SELECT * FROM pat WHERE tripid = ?", result1[0].trip_id, (err3, result3) => {
+                connection.query("SELECT * FROM pat WHERE tripid = ?", tripid, (err3, result3) => {
                     if (err3) throw err3;
+
+                    // console.log(result1);
+                    // console.log(result2);
+                    // console.log(result3);
 
                     // Calculate final amounts
                     let final_amount_with_ola = calculateFinalAmountWithOla(result1, result2, result3);
@@ -573,13 +598,14 @@ app.get("/mainlogin/:id/history", (req, res) => {
                     });
                 });
             });
+        }else{
+            res.redirect(`/mainlogin/${id}/${tripid}`);
+        }
         });
     } catch (err) {
         console.log(err);
     }
 });
-
-
 
 app.get("/mainlogin/:id/finalresult",(req,res) => {
     let {id} = req.params;
@@ -650,7 +676,8 @@ app.get("/mainlogin/:id/:tripid/finalinstation",(req,res) => {
                     if(err4) throw err4;
                     connection.query("select * from ride_details where tripid = ?",tripid,(err10,result10) => {
                         if(err10) throw err10;
-                res.render("map/instation.ejs",{data : result4,data10 : result10})
+                        
+                res.render("map/instation.ejs",{data : result4, data10 : result10})
             })
         })
                 } catch(err){
@@ -663,7 +690,11 @@ app.get("/mainlogin/:id/:tripid/finalinstation",(req,res) => {
                     try{
                         connection.query("select * from trip_details where tripid = ?",tripid,(err4,result4) => {
                             if(err4) throw err4;
-                        res.render("map/instation.ejs",{data : result4})
+                            connection.query("select * from ride_details where tripid = ?",tripid,(err10,result10) => {
+                                if(err10) throw err10;
+                                console.log(result10);
+                        res.render("map/instation.ejs",{data : result4, data10 : result10})
+                    })
                     })
                         } catch(err){
                            console.log(err);

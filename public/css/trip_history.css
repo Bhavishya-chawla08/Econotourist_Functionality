@@ -4,20 +4,168 @@
     font-family: Arial, Helvetica, sans-serif;
 }
 
-html ,body{
-    height: 100%;
+.mainhead{
+    display: flex;
+    height: 90px;
     width: 100%;
+    align-items: center;
+    justify-content: center;
+    text-decoration: 5px underline orange;
 }
 
-.main{
-    padding:5px 5px;
-    width:500px;
-    height:auto;
-    border:2px solid orange;
-    border-radius:50px;
+
+/* ==================hotel====================== */
+
+.hotel_head{
+    display: flex;
+    height: 50px;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    text-decoration: 5px underline orange;
 }
 
 .forimage{
-    width:auto;
-    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 500px;
+    width: 1000px;
+    border-radius: 30px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+    margin-left: 10%;
+    margin-bottom: 50px;
+}
+
+/* p{
+    font-size: 20px;
+    margin-top: 10px;
+} */
+
+.hotel_name{
+    margin-top: 5%;
+    border-top: 1px solid gray;
+    font-size: 40px;
+    margin-left: 10%;
+}
+
+.hotel_location{
+    margin-top: 5%;
+    font-size: 20px;
+    margin-left: 10%;
+}
+
+.hotel_price{
+    margin-top: 1%;
+    font-size: 20px;
+    margin-left: 10%;
+}
+
+.attract{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.attract_spot{
+    height: 400px;
+    width: 350px;
+}
+
+.attimage{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 300px;
+    width: 350px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+    border-radius: 20px;
+}
+
+.attract_name{
+    margin-top: 7%;
+    font-size: 20px;
+    /* margin-left: 10%; */
+}
+.attract_price{
+    margin-top: 1%;
+    font-size: 20px;
+    /* margin-left: 10%; */
+}
+
+.mainhead{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.ride{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    height: 50px;
+    width: 98%;
+    border: 2px solid orange;
+    border-radius: 20px;
+    margin-top: 2%;
+    margin-left: 1%;
+    font-size: 20px;
+}
+
+.spam{
+    width: 20%;
+}
+
+.spann{
+    width: 40%;
+}
+
+.main{
+    /* border: 3px solid black;
+    max-width: 100%;
+    max-height: 300px; */
+    position: relative;
+    left: 24%;
+    display: flex;
+
+    justify-content: center;
+    flex-direction: column;
+    height: 500px;
+    width: 50%;
+    border: 2px solid orange;
+    border-radius: 20px;
+    font-size: 30px;
+   gap: 10px;
+    margin-top: 2%;
+    margin-left: 1%;
+}
+
+.trip_head{
+    color: orange;
+}
+
+.exp{
+    position: relative;
+    left: 24%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    border: 2px solid orange;
+    height: 400px;
+    width: 50%;
+    border-radius: 20px;
+    font-size: 30px;
+   gap: 10px;
+}
+
+.trip_price{
+    color: red;
+}
+
+.trip_save{
+    color: green;
+}
+
+span{
+    margin-left: 2%;
 }
