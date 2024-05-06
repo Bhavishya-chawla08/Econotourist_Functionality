@@ -1,6 +1,6 @@
 // Mapbox Public Access Key
 // ***************************** Access Token for Map ******************************************
-// mapboxgl.accessToken = 'pk.eyJ1IjoiYmhhdmlzaDIwMDQiLCJhIjoiY2x2aTY5c3c2MWJxMDJrbzVxbWl0dG90OCJ9.I3pZLAZHCJaPR8GCDzQEkQ';
+//  mapboxgl.accessToken = 'pk.eyJ1IjoiYmhhdmlzaDIwMDQiLCJhIjoiY2x2aTY5c3c2MWJxMDJrbzVxbWl0dG90OCJ9.I3pZLAZHCJaPR8GCDzQEkQ';
 
 // Initializing Map
 var map = new mapboxgl.Map({
@@ -67,6 +67,8 @@ function calculateDistanceAndTripCost() {
   if(distanceInKm <= 60.000)
   { 
     document.querySelector(".alert2").style.display = "flex";
+    document.querySelector(".rideform").style.display = "flex";
+
     var costola = 16.50; // Assuming a cost per kilometer
     var costrickshaw = 11.80;
     var tripCost_Ola = distanceInKm * costola;
@@ -78,6 +80,7 @@ function calculateDistanceAndTripCost() {
   }
   else {
     document.querySelector(".alert2").style.display = "none";
+    document.querySelector(".rideform").style.display = "flex";
     var costola = 16.50; // Assuming a cost per kilometer
     var tripCost_Ola = distanceInKm * costola;
     tripCost_Ola = tripCost_Ola.toFixed(2); // Round to 2 decimal places

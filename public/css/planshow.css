@@ -83,8 +83,19 @@ i{
     gap: 10px;
     font-size: 40px;
     text-decoration: underline;
-
 }
+
+h1{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 150px;
+     width: 100%;
+     /* color: orange; */
+     text-decoration:5px underline orange;
+}
+
+
 
 .hotelcontain{
     display: flex;
@@ -119,6 +130,11 @@ i{
     border-radius: 10px;
 } */
 
+.logoimg{
+    height: 50px;
+    width: 50px;
+    
+}
 
 
 p{
@@ -178,6 +194,14 @@ input[type="radio"]:checked{
     box-shadow: 2px 2px 20px orange;
   }
   
+  .btn-text-two {
+    position: absolute;
+    width: 100%;
+    top: 150%;
+    left: 0;
+    transform: translateY(-50%);
+  }
+
   .btn span {
     font-size: 12px;
     text-transform: uppercase;
@@ -194,6 +218,9 @@ input[type="radio"]:checked{
   }
   
   .btn:hover .btn-text-one {
+    top: -100%;
   }
-  
+  .btn:hover .btn-text-two {
+    top: 50%;
+  }
   
