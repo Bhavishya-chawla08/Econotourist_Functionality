@@ -16,17 +16,13 @@
 <body>
   <div class="position-relative h-100 w-100 maindiv">
     <div class="checkdiv">
-      <div class="div1 swa"><div class="divin"><span class="ima"><img src="<%= data[0].hotel_image %>" alt=""></span><span class="name"><p><%= data[0].hotel_name %></p></span><span class="price"><%= data[0].hotel_price %></span> <button>Add</button></div></div>
+      <div class="div1 swa"><div class="divin"><span class="ima"><img src="<%= data[0].hotel_image %>" alt=""></span><span class="name"><p><%= data[0].hotel_name %></p></span><span class="price"><%= data[0].hotel_price %></span></div></div>
       <div class="div2 swa">
        <% for( let i = 0; i < data.length; i++ ) { %>
-        <div class="divin divattaract"><span class="ima"><img src="<%= data[i].attraction_image %>" alt=""></span><span class="name"><p><%= data[i].attraction_name %></p></span><span class="price"><%= data[i].attraction_price %></span><button>Add</button></div>
+        <div class="divin divattaract"><span class="ima"><img src="<%= data[i].attraction_image %>" alt=""></span><span class="name"><p><%= data[i].attraction_name %></p></span><span class="price"><%= data[i].attraction_price %></span></div>
        <% } %>
       </div>
-      <div class="div3 swa">
-      <% for( let i = 0; i < data10.length; i++ ) { %>
-    <div class="divin"><span class="ima"><%= data10[i].source%>-<%= data10[i].destination%></span><span class="name"><p><%= data10[i].ola_price%></p></span><span class="price"><%= data10[i].rickshaw_price %></span></div>
-      <% } %>
-    </div>
+    
     </div>
   
     <div id='map'></div>
