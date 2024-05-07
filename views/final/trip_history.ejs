@@ -4,12 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/trip_history.css">
+      <link
+    href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css"
+    rel="stylesheet"
+/>
     <title>Trip History</title>
 </head>
 <body>
+
+ 
     <h1 class="mainhead">Total Amount And Saving</h1>
+    <a href="/mainlogin/<%= data1[0].user_id %>" class="home"><i class="ri-home-8-fill"></i></a>
     
-    <h3 class="hotel_head"> Hotel Details </h3>
+    <h3 class="mainhead"> Hotel Details </h3>
     <h2 class="hotel_name"><b><%= data1[0].hotel_name %></b></h2>
     <img src="<%= data1[0].hotel_image %>" alt="" class="forimage">
         
@@ -70,12 +77,15 @@
         <p><u><b><span class = "trip_head">Final Amount (Ola) </b><span></b></u>:<b><span class = "trip_price"> &ensp; &#8377; <%= final_amount_with_ola.toFixed(2) %></span></p>
         <p><u><b><span class = "trip_head">Final Amount (Rickshaw) </b><span></b></u>: <b><span class = "trip_price"> &ensp; &#8377; <%= final_amount_with_rickshaw.toFixed(2) %></span></p>
             <p><u><b><span class = "trip_head">Saving For Ola  </b><span></b></u>:<b><span class = "trip_save"> &ensp; &#8377; <%= (data3[0].overallbudget-final_amount_with_ola).toFixed(2) %></span></p>
-                <p><u><b><span class="trip_head">Saving For Rickshaw</span></b></u>: <b><span class="trip_save">&ensp;&#8377; <%= (data3[0].overallbudget - final_amount_with_rickshaw)%> </span></b></p>
+                <p><u><b><span class="trip_head">Saving For Rickshaw</span></b></u>: <b><span class="trip_save">&ensp;&#8377; <%= (data3[0].overallbudget - final_amount_with_rickshaw).toFixed(2)%> </span></b></p>
             </p>
         </div>
 
-    <div class="button">
-        <button type="submit">Update Trip</button>
-    </div>
+    <!-- <div class="button">
+        <button class="btn">
+            <span class="btn-text-one">UPDATE</span>
+            <span class="btn-text-two">COMPLETE UPDATE</span>
+        </button>
+    </div> -->
 </body>
 </html>
