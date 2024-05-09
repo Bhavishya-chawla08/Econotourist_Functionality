@@ -12,8 +12,8 @@ let path = require('path');
 const connection = mysql.createConnection({
     host: "localhost",
     user: "root",
-    database: "econotourist",
-    password: "root"
+    database: "pbl",
+    password: "Tejas@6504"
 });
 app.use(express.urlencoded({extended: true}));
 app.set("view engine", "ejs");

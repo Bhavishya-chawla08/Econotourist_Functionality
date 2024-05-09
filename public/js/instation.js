@@ -1,6 +1,6 @@
 // Mapbox Public Access Key
 // ***************************** Access Token for Map ******************************************
- mapboxgl.accessToken = 'pk.eyJ1IjoiYmhhdmlzaDIwMDQiLCJhIjoiY2x2aTY5c3c2MWJxMDJrbzVxbWl0dG90OCJ9.I3pZLAZHCJaPR8GCDzQEkQ';
+//  mapboxgl.accessToken = 'pk.eyJ1IjoiYmhhdmlzaDIwMDQiLCJhIjoiY2x2aTY5c3c2MWJxMDJrbzVxbWl0dG90OCJ9.I3pZLAZHCJaPR8GCDzQEkQ';
 
 // Initializing Map
 var map = new mapboxgl.Map({
@@ -30,16 +30,59 @@ var map = new mapboxgl.Map({
   // Adding navigation control on Map
   map.addControl(new mapboxgl.NavigationControl(), 'bottom-right');
 
-  directions.on('origin', function(event) {
-    var source = event.feature.geometry.coordinates;
-    console.log('Source:', source);
+ // Function to get location name from coordinates
+function getLocationNameSource(coordinates) {
+  var url = 'https://api.mapbox.com/geocoding/v5/mapbox.places/' + coordinates[0] + ',' + coordinates[1] + '.json?access_token=' + mapboxgl.accessToken;
+
+  fetch(url)
+  .then(response => response.json())
+  .then(data => {
+      var locationNameSource = data.features[0].place_name;
+      console.log('Source Location Name:', locationNameSource);
+      document.querySelector(".forsource").value = locationNameSource;
+  })
+  .catch(error => {
+      console.error('Error:', error);
+  });
+}
+
+// Event listener for the 'origin' event
+directions.on('origin', function(event) {
+  var source = event.feature.geometry.coordinates;
+  console.log('Source:', source);
+  
+  // Get the location name for the source coordinates
+  getLocationNameSource(source);
 });
 
 // Event handler for directions "destination" event
+// Assuming you have already set up your Mapbox access token
+
+// Function to get location name from coordinates
+function getLocationNameDestination(coordinates) {
+    var url = 'https://api.mapbox.com/geocoding/v5/mapbox.places/' + coordinates[0] + ',' + coordinates[1] + '.json?access_token=' + mapboxgl.accessToken;
+
+    fetch(url)
+    .then(response => response.json())
+    .then(data => {
+        var locationNamedestination = data.features[0].place_name;
+        console.log('Destination Location Name:', locationNamedestination);
+         document.querySelector(".fordestination").value =locationNamedestination;
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
+// Event listener for the 'destination' event
 directions.on('destination', function(event) {
     var destination = event.feature.geometry.coordinates;
     console.log('Destination:', destination);
+   
+    // Get the location name for the destination coordinates
+    getLocationNameDestination(destination);
 });
+
   
 
 // Function to calculate distance and trip cost
@@ -61,6 +104,9 @@ function calculateDistanceAndTripCost() {
   // Extract numeric distance value
   var distanceInKm = parseFloat(distanceText[0]);
   console.log("Hello");
+  let fordistance = document.querySelector(".fordistance").value = distanceInKm;
+  console.log(fordistance.value);
+  console.log(distanceInKm);
 
 
   // Calculate trip cost based on extracted distance
