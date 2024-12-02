@@ -761,7 +761,4 @@ app.get("/mainlogin/:id/:tripid/fin",(req,res) => {
     }
 })
 
-
-
-
 app.listen(7000);
