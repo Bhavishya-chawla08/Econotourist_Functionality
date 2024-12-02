@@ -2,53 +2,59 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <met a name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trip Details</title>
-    <link rel="stylesheet" href="trip.css">
+    <link rel="stylesheet" href="/css/trip.css">
 </head>
 <body>
     <div class="container">
-        <h1>Trip Details</h1>
+       
         <form id="trip-form" action="/mainlogin/<%=data[0].id %>/planatrip/add" method="post">
             
-            <div class="form-group">
-                <label for="trip-name">Trip Name:</label>
-                <input type="text" id="trip-name" name="tripname" required placeholder="Enter Trip Name : ">
+            <h1>Trip Details</h1>
+            
+            <div class="input-group  form-group">
+                <input type="text"  class="input" name="tripname" required>
+                <label class="user-label" for="trip-name">Trip Name</label>
             </div>
-            <div class="form-group">
-                <label for="start-date">Start Date:</label>
-                <input type="date" id="start-date" name="startdate" required>
+            <div class="input-group  form-group">
+                <input type="text" class="input" name="startdate" required placeholder=" " onfocus="this.type='date'" onblur="this.type='text'">
+                <label class="user-label" for="start-date">Start Date</label>
             </div>
-            <div class="form-group">
-                <label for="end-date">End Date:</label>
-                <input type="date" id="end-date" name="enddate" required>
+            <div class="input-group  form-group">
+                <input type="text"  class="input" name="enddate" required placeholder=" " onfocus="this.type='date'" onblur="this.type='text'">
+                <label class="user-label">End Date</label>
             </div>
-            <div class="form-group">
-                <label for="overall-budget">Overall Budget:</label>
-                <input type="number" id="overall-budget" name="overallbudget" required placeholder="Enter YOur Budget : ">
+            <div class="form-group  input-group">
+                <input type="number"  class="input" name="overallbudget" required >
+                <label class="user-label" for="overall-budget">Overall Budget</label>
             </div>
-            <div class="form-group">
-                <label for="trip-type">Trip Type:</label>
-                <select id="trip-type" name="triptype" required>
+            <div class="form-group  input-group select">
+                
+                <select class="selectin" name="triptype" required >
                     <option value="out-station">Out-Station</option>
                     <option value="in-station">In-Station</option>
                 </select>
+                <label class="label" for="trip-type">Trip Type</label>
             </div>
-            <div class="form-group">
-                <label for="destination">Number Of Persons:</label>
-                <input type="number" id="No_person" name="No_person" required placeholder="Enter the Number of persons: ">
+            <div class="form-group  input-group">
+                <input type="number" class="input" name="No_person" required >
+                <label class="user-label" for="destination">Number Of Persons</label>
             </div>
-            <div class="form-group">
-                <label for="destination">Source:</label>
-                <input type="text" id="source" name="source" required placeholder="Enter The Source : ">
-            </div>
-            <div class="form-group">
-                <label for="destination">Destination:</label>
-                <input type="text" id="destination" name="destination" required placeholder="Enter The Destination : ">
-            </div>
-            <button type="submit">Submit</button>
+            <div class="form-group  input-group">
 
-            <button type="Edit">Edit</button>
+                <input type="text" class="input" name="source" required>
+                <label class="user-label" for="destination">Source</label>
+            </div>
+            <div class="form-group  input-group">
+                <input type="text"  class="input" name="destination" required >
+                <label class="user-label" for="destination">Destination</label>
+            </div>
+            <button class="btn">
+                <span class="btn-text-one">Submit</span>
+                <span class="btn-text-two">Great!</span>
+            </button>
+
         </form>
     </div>
 </body>

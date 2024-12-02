@@ -15,7 +15,7 @@ html ,body{
 #head{
     font-size: 50px;
     text-transform:uppercase;
-    text-decoration: 5px underline solid orange;
+    text-decoration: 2px underline solid red;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -83,8 +83,19 @@ i{
     gap: 10px;
     font-size: 40px;
     text-decoration: underline;
-
 }
+
+h1{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 150px;
+     width: 100%;
+     /* color: orange; */
+     text-decoration:5px underline orange;
+}
+
+
 
 .hotelcontain{
     display: flex;
@@ -119,6 +130,11 @@ i{
     border-radius: 10px;
 } */
 
+.logoimg{
+    height: 50px;
+    width: 50px;
+    
+}
 
 
 p{
@@ -178,6 +194,14 @@ input[type="radio"]:checked{
     box-shadow: 2px 2px 20px orange;
   }
   
+  .btn-text-two {
+    position: absolute;
+    width: 100%;
+    top: 150%;
+    left: 0;
+    transform: translateY(-50%);
+  }
+
   .btn span {
     font-size: 12px;
     text-transform: uppercase;
@@ -193,6 +217,12 @@ input[type="radio"]:checked{
     transform: translateY(-50%);
   }
   
+  .btn:hover .btn-text-one {
+    top: -100%;
+  }
+  .btn:hover .btn-text-two {
+    top: 50%;
+  }
   
   .home{
     display: flex;
@@ -204,7 +234,7 @@ input[type="radio"]:checked{
    .ri-home-8-fill{
     position: fixed;
     left: 1600px;
-    bottom: 750px;
+    bottom: 700px;
     display: flex;
     height: 100px;
     width: 100px;
