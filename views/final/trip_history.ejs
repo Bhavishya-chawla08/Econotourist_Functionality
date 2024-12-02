@@ -45,8 +45,14 @@
         <p>Final Amount (Rickshaw): <%= final_amount_with_rickshaw %></p>
     </div>
 
+       
     <div class="button">
-        <button type="submit">Update Trip</button>
+        <form action="/mainlogin/<%= data3[0].id %>/sendmail" method="post">
+            <button type="submit">Email me</button>
+        </form>
     </div>
+ 
+
+
 </body>
 </html>

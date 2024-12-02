@@ -4,6 +4,19 @@ const mysql = require("mysql");
 const bodyParser = require('body-parser');
 const mapboxgl = require('mapbox-gl');
 let path = require('path');
+const nodemailer = require('nodemailer')
+
+const transporter = nodemailer.createTransport(
+    {
+        secure:true,
+        host: 'smtp.gmail.com',
+        port:465,
+        auth:{
+            user: 'tejasdeshmukh320@gmail.com',
+            pass: 'trhylaftephoagtx'
+        }
+    }
+);
 
 // let distanceInKm = require("/js/instation.js");
 // let value = require("../pblmyself/public/js/login.js");
@@ -484,7 +497,7 @@ let tripid  =Math.floor(Math.random() * (1000000));
 let userid = id;
 
 try{
-    connection.query("insert into pat (tripid,id,tripname,startdate,enddate,overallbudget,triptype,destination,source,No_person) values (? , ? , ? , ? , ? , ? ,? , ?,?,?) ",[tripid,id,req.body.tripname,req.body.startdate,req.body.enddate,req.body.overallbudget,req.body.triptype,req.body.destination,req.body.source,req.body.No_person],(err,result) => {
+    connection.query("insert into pat (tripid,id,tripname,startdate,enddate,overallbudget,triptype,destination,No_person) values (? , ? , ? , ? , ? , ? ,? , ?,?) ",[tripid,id,req.body.tripname,req.body.startdate,req.body.enddate,req.body.overallbudget,req.body.triptype,req.body.destination,req.body.No_person],(err,result) => {
        if(err) throw err;
        res.redirect(`/mainlogin/${id}/planatrip`);
    })
@@ -558,6 +571,7 @@ app.get("/mainlogin/:id/history", (req, res) => {
                 if (err2) throw err2;
                 connection.query("SELECT * FROM pat WHERE tripid = ?", result1[0].trip_id, (err3, result3) => {
                     if (err3) throw err3;
+                
 
                     // Calculate final amounts
                     let final_amount_with_ola = calculateFinalAmountWithOla(result1, result2, result3);
@@ -728,19 +742,26 @@ app.post("/mainlogin/:id/:tripid/pat",(req,res) => {
             if(err1) throw err1;
             console.log(result1[0].title);
 
-           for(let i=0;i<tourist.length;i++){
+            if(tourist.length == 0)
+            {
+                connection.query("insert into trip_details (id,tripid,hotel_name,hotel_price,hotel_image,hotel_location,attraction_name,attraction_price,attraction_image,timetovisit) values (?, ? ,? , ? , ? ,? ,? ,? ,? ,?)",[id,tripid,result1[0].title,result1[0].Price,result1[0].image,result1[0].Location,null,null,null,null],(err4,result4) => {
+                    if(err4) throw err4;  
+             })
+            }else{
+               for(let i=0;i<tourist.length;i++){
         //    connection.query("select * from pat where id= ?",id,(err3,result3) => {
         //     if(err3) throw err3;
-            connection.query("select * from touristspots where Name = ?",[tourist[i]],(err3,result3) => {
+                connection.query("select * from touristspots where Name = ?",[tourist[i]],(err3,result3) => {
                 if(err3) throw err3;
-            connection.query("insert into trip_details (id,tripid,hotel_name,hotel_price,hotel_image,hotel_location,attraction_name,attraction_price,attraction_image,timetovisit) values (?, ? ,? , ? , ? ,? ,? ,? ,? ,?)",[id,tripid,result1[0].title,result1[0].Price,result1[0].image,result1[0].Location,result3[0].Name,result3[0].Entrance_Fee_INR,result3[0].Image_URL,result3[0].Time_Needed_Hrs],(err4,result4) => {
-                if(err4) throw err4;  
+               connection.query("insert into trip_details (id,tripid,hotel_name,hotel_price,hotel_image,hotel_location,attraction_name,attraction_price,attraction_image,timetovisit) values (?, ? ,? , ? , ? ,? ,? ,? ,? ,?)",[id,tripid,result1[0].title,result1[0].Price,result1[0].image,result1[0].Location,result3[0].Name,result3[0].Entrance_Fee_INR,result3[0].Image_URL,result3[0].Time_Needed_Hrs],(err4,result4) => {
+                 if(err4) throw err4;  
           
         // console.log(result4);
        })
     // })
 })
-}
+} 
+            }
 res.redirect(`/mainlogin/${id}/${tripid}`);
     })
     } catch(err){
@@ -760,5 +781,81 @@ app.get("/mainlogin/:id/:tripid/fin",(req,res) => {
        console.log(err);
     }
 })
+
+app.post("/mainlogin/:id/sendmail", (req, res) => {
+    console.log("I am sending mail");
+    let { id } = req.params;
+    try {
+        connection.query("SELECT * FROM trip_history WHERE user_id = ?", [id], (err1, result1) => {
+            if (err1) throw err1;
+            connection.query("SELECT * FROM ride_details WHERE id = ?", id, (err2, result2) => {
+                if (err2) throw err2;
+                connection.query("SELECT * FROM pat WHERE tripid = ?", result1[0].trip_id, (err3, result3) => {
+                    if (err3) throw err3;
+                    connection.query("SELECT * FROM user WHERE id = ?", id, (err4, result4) => {
+                        if (err4) throw err4;
+
+                        // Calculate final amounts
+                        let final_amount_with_ola = calculateFinalAmountWithOla(result1, result2, result3);
+                        let final_amount_with_rickshaw = calculateFinalAmountWithRickshaw(result1, result2, result3);
+
+                        // Render the EJS template with the calculated values
+                        transporter.sendMail({
+                            to: result4[0].email,
+                            subject: "EconoTourist Details",
+                            html: `
+                                <p>Dear <b>${result4[0].username}</b>,</p>
+                                <p>Thank you for using <b>EconoTourist</b>! Here’s a detailed summary of your recent trip expenses:</p>
+                                <hr>
+                                <h3>Your Expense Breakdown</h3>
+                                <ul>
+                                    <li><b>Total Amount can be used:</b> ₹${result3[0].overallbudget}</li>
+                                    <li><b>Amount Spent with Ola:</b> ₹${final_amount_with_ola}</li>
+                                    <li><b>Amount Spent with Rickshaws:</b> ₹${final_amount_with_rickshaw}</li>
+                                    <li><b>Total Savings with EconoTourist by using Ola:</b> ₹${result3[0].overallbudget - final_amount_with_ola}</li>
+                                    <li><b>Total Savings with EconoTourist by using Rickshaws:</b> ₹${result3[0].overallbudget - final_amount_with_rickshaw}</li>
+                                </ul>
+                                <hr>
+                                <p>By choosing <b>EconoTourist</b>, you have not only saved money but also traveled efficiently and comfortably.</p>
+                                <p>If you have any questions or need assistance, feel free to reach out to us at <a href="mailto:support@econotourist.com">support@econotourist.com</a>.</p>
+                                <p><u><b>Thank You for using EconoTourist.</b></u></p>
+                                <p><b>The EconoTourist Team</b></p>
+                            `
+                        }, (err, info) => {
+                            if (err) {
+                                console.log(err);
+                                return res.status(500).send("Failed to send the email. Please try again later.");
+                            }
+                           echo("Email sent: " + info.response);
+                            return res.status(200).send("Email has been successfully sent to " + result4[0].email);
+                        });
+
+                    });
+                });
+            });
+        });
+
+       res.render("final/trip_history.ejs",{  data1: result1,
+        data2: result2,
+        data3: result3,
+        final_amount_with_ola: final_amount_with_ola,
+        final_amount_with_rickshaw: final_amount_with_rickshaw})
+    } catch (err) {
+        console.log(err);
+        res.status(500).send("An error occurred while processing your request.");
+    }
+});
+
+
+// function sendMail(to,sub,msg){
+//     transporter.sendMail({
+//         to:to,
+//         subject:sub,
+//         html:msg
+//     });
+
+//     console.log("Message Send");
+// }
+
 
 app.listen(7000);

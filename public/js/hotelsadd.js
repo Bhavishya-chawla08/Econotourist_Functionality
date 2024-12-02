@@ -6,8 +6,9 @@ console.log(hotels.length);
 const connection = mysql.createConnection({
     host: "localhost",
     user: "root",
-    database: "pbl",
-    password: "Tejas@6504"
+    database: "econotourist",
+    password: "root"
+
 });
 
 
