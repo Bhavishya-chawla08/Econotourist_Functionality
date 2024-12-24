@@ -175,7 +175,7 @@ span{
     margin-left: 2%;
 }
 
-/* .btn {
+ .btn {
 
     width: 140px;
     height: 50px;
@@ -223,7 +223,7 @@ span{
   .btn:hover .btn-text-two {
     top: 50%;
   }
-   */
+   
 
    .home{
     display: flex;
@@ -247,3 +247,6 @@ span{
     justify-content: center;
    }
 
+#Formailing{
+
+}

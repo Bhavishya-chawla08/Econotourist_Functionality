@@ -127,11 +127,15 @@ span{
     height:550px;
 }
 
+#forsearchmain{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
 
 #forsearch{
-    
     display: flex;
-    margin-left: 21%;
     margin-top: 8%;
     height: 105px;
     width: 1200px;
