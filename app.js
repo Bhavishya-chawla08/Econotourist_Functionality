@@ -12,8 +12,8 @@ const transporter = nodemailer.createTransport(
         host: 'smtp.gmail.com',
         port:465,
         auth:{
-            user: 'tejasdeshmukh320@gmail.com',
-            pass: 'trhylaftephoagtx'
+           user: 'econotourist07@gmail.com',
+            pass: 'woefuejrdsygijka'
         }
     }
 );
@@ -25,8 +25,8 @@ const transporter = nodemailer.createTransport(
 const connection = mysql.createConnection({
     host: "localhost",
     user: "root",
-    database: "pbl",
-    password: "Tejas@6504"
+    database: "Econotourist",
+    password: "root"
 });
 app.use(express.urlencoded({extended: true}));
 app.set("view engine", "ejs");
@@ -43,6 +43,10 @@ app.get('/main', async (req,res) => {
         res.render("main.ejs");
 });
 
+app.get('/dist', async (req,res) => {
+    
+    res.render("dist.ejs");
+});
 
 
 //create route 
@@ -852,6 +856,7 @@ app.post("/mainlogin/:id/sendmail", (req, res) => {
                                 <p><u><b>Thank You for using EconoTourist.</b></u></p>
                                 <p><b>The EconoTourist Team</b></p>
                             `
+                            
                         }, (err, info) => {
                             if (err) {
                                 console.log(err);
@@ -861,16 +866,19 @@ app.post("/mainlogin/:id/sendmail", (req, res) => {
                             return res.status(200).send("Email has been successfully sent to " + result4[0].email);
                         });
 
+
+                        res.render("final/trip_history.ejs",{
+                            data1: result1,
+                            data2: result2,
+                            data3: result3,
+                            final_amount_with_ola: final_amount_with_ola,
+                            final_amount_with_rickshaw: final_amount_with_rickshaw})
                     });
                 });
             });
         });
 
-       res.render("final/trip_history.ejs",{  data1: result1,
-        data2: result2,
-        data3: result3,
-        final_amount_with_ola: final_amount_with_ola,
-        final_amount_with_rickshaw: final_amount_with_rickshaw})
+       
     } catch (err) {
         console.log(err);
         res.status(500).send("An error occurred while processing your request.");

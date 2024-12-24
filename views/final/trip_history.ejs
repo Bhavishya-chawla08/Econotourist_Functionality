@@ -27,6 +27,9 @@
 
         <h3 class="mainhead"> Attraction Details </h3>
         <div class="attract">
+        <% if (data1.attraction_name == null) {%>
+            <h1>You havent Choosen any Attraction point</h1>
+        <% }else {%>    
         <% for (let i = 0; i < data1.length; i++) { %>
             <div class="attract_spot">
             <img src="<%= data1[i].attraction_image %>" alt="" class="attimage">
@@ -34,14 +37,11 @@
             <p class="attract_price">&#8377; <%= data1[i].attraction_price.toLocaleString("en-IN") %></p>
         </div>
         <% } %>
+        <% } %>
     </div>
 
        
-    <div class="button">
-        <form action="/mainlogin/<%= data3[0].id %>/sendmail" method="post">
-            <button type="submit">Email me</button>
-        </form>
-    </div>
+    
  
 
 
@@ -90,6 +90,14 @@
                 <p><u><b><span class="trip_head">Saving For Rickshaw</span></b></u>: <b><span class="trip_save">&ensp;&#8377; <%= (data3[0].overallbudget - final_amount_with_rickshaw).toFixed(2)%> </span></b></p>
             </p>
         </div>
+
+            <form action="/mainlogin/<%= data3[0].id %>/sendmail" method="post">
+                <button class="btn">
+                  <span class="btn-text-one">Email Me!!</span>
+                  <span class="btn-text-two">Sending Email...</span>
+                </button>
+            </form>
+
 
     <!-- <div class="button">
         <button class="btn">

@@ -8,8 +8,8 @@ const transporter = nodemailer.createTransport(
         host: 'smtp.gmail.com',
         port:465,
         auth:{
-            user: 'tejasdeshmukh320@gmail.com',
-            pass: 'trhylaftephoagtx'
+            user: 'econotourist07@gmail.com',
+            pass: 'woefuejrdsygijka'
         }
     }
 );
@@ -24,4 +24,4 @@ function sendMail(to,sub,msg){
     console.log("Message Send");
 }
 
-sendMail("tejaldeshmukh9507@gmail.com","Hello","Hello Tejas");
+sendMail("econotourist07@gmail.com","Hello","Hello Tejas");
