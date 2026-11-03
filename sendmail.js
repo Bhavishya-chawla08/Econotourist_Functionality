@@ -24,4 +24,4 @@ function sendMail(to,sub,msg){
     console.log("Message Send");
 }
 
-sendMail("econotourist07@gmail.com","Hello","Hello Tejas");
+sendMail("","Hello","Hello Tejas");
